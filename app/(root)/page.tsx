@@ -1,9 +1,19 @@
+import Collection from '@/components/shared/Collection'
 import { Button } from '@/components/ui/button'
+import { getAllEvents } from '@/lib/actions/event.actions'
 import Image from 'next/image'
 import Link from 'next/link'
 import { mainModule } from 'process'
 
-export default function Home() {
+export default async function Home() {
+
+  const events = await getAllEvents({
+    query: '',
+    category: '',
+    page: 1,
+    limit: 6
+  });
+
   return (
     <>
      <section className='bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-10'>
@@ -31,6 +41,15 @@ export default function Home() {
           Search
           CategorytFilter
         </div>
+        <Collection
+          data={events?.data}
+          emptyTitle='No event found'
+          emptyStateSubtext="Come back later"
+          collectionType='All_Events'
+          limit={6}
+          page={1}
+          totalPages={2}
+        />
       </section>
     </>
   )
